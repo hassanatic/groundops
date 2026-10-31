@@ -1,0 +1,20 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install -e ".[test]" skyfield
+      - run: pytest -q
+      - name: demo run
+        run: |
+          groundops sample --dir /tmp/demo
+          cd /tmp/demo/.. && groundops plan --tle demo/demo.tle
+          groundops report --tle demo/demo.tle --limits demo/limits.csv --telemetry demo/telemetry.csv --anomalies demo/anomalies.jsonl
