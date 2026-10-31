@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "groundops"
+version = "0.1.0"
+description = "Small tools for ground segment operations support: pass prediction, contact planning, telemetry limit checks, anomaly log, shift report"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+dependencies = ["sgp4>=2.22"]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.scripts]
+groundops = "groundops.cli:main"
+
+[tool.setuptools]
+packages = ["groundops"]
+
+[tool.pytest.ini_options]
+filterwarnings = ["ignore::DeprecationWarning:skyfield.*"]
